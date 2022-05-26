@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 import random
 from SortingAlgorithms.BubbleSort import bubblesort
+from SortingAlgorithms.QuickSort import quickSort
 
 from numpy import c_
 
@@ -18,7 +19,7 @@ selected_algo = StringVar()
 data = []
 
 #creates rectangle for grid
-def drawData(data):
+def drawData(data, colourArray):
     canvas.delete('all')
     c_height = 380
     c_width = 600
@@ -35,8 +36,10 @@ def drawData(data):
         x1 = (i+1) * x_width + offset
         y1 = c_height
 
-        canvas.create_rectangle(x0, y0, x1, y1, fill = '#dd7973')
+        canvas.create_rectangle(x0, y0, x1, y1, fill = colourArray[i])
         canvas.create_text(x0+2, y0, anchor=SW, text=str(data[i]))
+
+    root.update_idletasks()
 
 #Gets algo value submitted by user
 def Generate():
@@ -67,11 +70,23 @@ def Generate():
 
     for i in range(size):
         data.append(random.randrange(minValue, maxValue+1))
-    drawData(data)
+    drawData(data, ['#dd7973' for y in range(len(data))])
 
 def Start():
     global data
-    bubblesort(data, drawData)
+    if not data:
+        return
+
+    if algoMenu.get() == 'Quick Sort':
+        quickSort(data, 0, len(data)-1, drawData, speed.get())
+        drawData(data, ['green' for y in range(len(data))])
+    elif algoMenu.get() == 'Bubble Sort':
+        bubblesort(data, drawData, speed.get())
+    elif algoMenu.get() == 'Merge Sort':
+        pass
+    else:
+        pass
+
     
 
 
@@ -90,8 +105,8 @@ algoMenu = ttk.Combobox(UI_frame, textvariable=selected_algo, values=['Bubble So
 algoMenu.grid(row=0,column=1, padx=5, pady=5)
 algoMenu.current(0)
 
-Speed = Scale(UI_frame, from_=0.1, to=2.0, length=200, digits=2, resolution=0.2, orient=HORIZONTAL, label= "Speed:")
-Speed.grid(row=0, column=2, padx=5, pady=5)
+speed = Scale(UI_frame, from_=0.1, to=2.0, length=200, digits=2, resolution=0.2, orient=HORIZONTAL, label= "Speed [s]:")
+speed.grid(row=0, column=2, padx=5, pady=5)
 Button(UI_frame, text='Start', command= Start, bg = '#dd7973').grid(row=0, column=3, padx=5, pady=5)
 
 

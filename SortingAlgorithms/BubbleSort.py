@@ -2,10 +2,8 @@
 
 import time
 
-#def bubbleSort(data):
-#    pass
 
-def bubblesort(data, drawData):
+def bubblesort(data, drawData, timescale):
 
     for i in range(len(data)):
 
@@ -22,11 +20,7 @@ def bubblesort(data, drawData):
                 data[x] = data[x+1]
                 data[x+1] = temp
 
-                drawData(data)
-                time.sleep(0.2)
-
-
-#array1 = [20,33,2,5,900]
-
-#bubblesort(array1)
-#print(array1)
+                #green if data is swapped correctly
+                drawData(data, ['green' if y == x or y == x+1 else '#dd7973' for y  in range(len(data))])
+                time.sleep(timescale)
+    drawData(data, ['green' for x in range(len(data))])
