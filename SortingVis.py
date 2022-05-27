@@ -4,6 +4,7 @@ from tkinter import ttk
 import random
 from SortingAlgorithms.BubbleSort import bubblesort
 from SortingAlgorithms.QuickSort import quickSort
+from SortingAlgorithms.MergeSort import mergesort
 
 from numpy import c_
 
@@ -83,11 +84,9 @@ def Start():
     elif algoMenu.get() == 'Bubble Sort':
         bubblesort(data, drawData, speed.get())
     elif algoMenu.get() == 'Merge Sort':
-        pass
-    else:
-        pass
+        mergesort(data, drawData, speed.get())
 
-    
+    drawData(data, ['green' for x in range(len(data))])
 
 
 #UI frame
